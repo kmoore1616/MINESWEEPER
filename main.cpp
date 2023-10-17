@@ -45,21 +45,26 @@ int countAdj(int arena[][6]){
     return count;
 }
 
-void printArena(int arena[][6], int cursorLocation[][6]){
+
+
+void printArena(int arena[][6], int cursorLocation[]){
     int arenaLen = 6;
-    cout << " __________________ " << endl;
+    printw(" __________________ \n");
     for(int i = 0; i < arenaLen; i++){
-        cout << "|";
+        printw("|");
         for(int j = 0; j < arenaLen; j++){
-            if(arena[i][j] == 0 || 1){
-                cout << " # ";
+            if(i == cursorLocation[0] && j == cursorLocation[1]){
+                printw(" X ");
+            }
+            else if(arena[i][j] == 0 || 1){
+                printw(" # ");
             }else{
-                cout << " " << countAdj(arena) << " ";
+                printw("%s%d%s", " ", countAdj(arena), " ");
             }
         }
-        cout << "|" << endl;
+        printw("|\n");
     }
-    cout << " __________________ " << endl;
+    printw(" __________________ ");
 }
 
 int main(){
@@ -71,7 +76,7 @@ int main(){
 
     int arena[6][6];
     int arenaLen = 6;
-    int cursorLocation[2] = {0,0};
+    int cursorLocation[3] = {0,0,0};
 
     // Build array
     
@@ -80,7 +85,9 @@ int main(){
             arena[i][j] = rand() % 2;
         }
     }
-    
+    clear();
+    printArena(arena, cursorLocation);
+    refresh();
 
     // Run simulation
     while(true){
@@ -115,9 +122,17 @@ int main(){
                 cursorLocation[1]++;
             }
         }else if(inputChar == ' '){
-            
-    }
+            if(arena[cursorLocation[0]][cursorLocation[1]] == 1){
+                break;
+            }else if(arena[cursorLocation[0]][cursorLocation[1]] == 0){
 
+            }
+        }
+        clear();
+        printArena(arena, cursorLocation);
+        refresh();
+    }
+    endwin();
 
     return 0;
 }
